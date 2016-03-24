@@ -1,0 +1,49 @@
+Hi,
+
+Thanks for using the Ubipy Music Player.
+
+Here, I'll just explain how music should be added.
+
+FOLDER STRUCTURE
+=================
+
+Music should be added following this folder structure:
+|-music
+  |-artist's name
+    |-album name
+      |-song
+(in other words, there should be 1 folder in this folder (the music folder) for each artist, then WITHIN each artist's folder, their albums should be separated into separate folders. Each album's songs go into their respective folders. *DO NOT INCLUDE DASHES IN FOLDER NAMES.*)
+
+For example:
+|-music
+    |-Bring Me The Horizon
+        |-That's The Spirit
+            |-Doomed.mp3
+            |-Happy Song.mp3
+            |-etc...
+        |-Sempiternal
+            |-Can You Feel My Heart.mp3
+            |-etc...
+    |-Get Scared
+        |-Best Kind of Mess
+            |-Drown.mp3
+            |-etc...
+
+FILE TYPES
+===========
+
+At the moment, *only* MP3 (MPEG-3 audio-only) files are usable. Ogg Vorbis files are planned to be supported later, and other file types may be added - however supported file types are currently limited by Pygame and SDL music support.
+
+Unsupported file types are skipped at index, and thus shouldn't break the player... No promises, though! (see license; warranty)
+
+MP3 METADATA
+=============
+
+Currently, files must have the following metadata:
+- TIT2 (in the Windows properties "details" section, this is called "Title")
+- TALB (Windows details: Album)
+- TPE1 (Windows details: Artist)
+
+This is planned to be improved at a later time so that files lacking metadata will be substituted for values based on their directory tree, but this is not yet the case.
+
+At the moment, mp3 files lacking required metadata will not be indexed.
