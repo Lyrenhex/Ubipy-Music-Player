@@ -1,5 +1,5 @@
 """
-Scratso Music Player
+Ubipy Music Player
 
 Dependencies:
 pygame
@@ -42,8 +42,7 @@ This program comes with ABSOLUTELY NO WARRANTY; type 'show w'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type 'show c'.
 http://gnu.org/licenses/gpl.html for details.
-Otherwise, press enter (or any other command) to run.
-""")
+Otherwise, press enter (or any other command) to run.""")
 
 i = 1
 while i == 1:
@@ -134,12 +133,10 @@ for folder in os.listdir("music"):
                     if file.endswith(".mp3"):
                         try:
                             metadata = id3(os.path.join("music", folder, subfolder, file))
-                            a = (metadata['TIT2'].text[0] +
-                                 metadata['TALB'].text[0] +
-                                 metadata['TPE1'].text[0])
                             songs.append(os.path.join("music", folder, subfolder, file))
                             maxsong += 1
                         except Exception as e:
+                            log.exception("Exception while handling " + os.path.join("music", folder, subfolder, file) + ": " + e)
                             continue
 
 log.info("Songs available to play: " + str(maxsong + 1))
@@ -202,7 +199,11 @@ except:
         img.write(albumart)
 tracklength = mp3(songs[cursong]).info.length
 metadata = id3(songs[cursong])
-log.info("SONG #" + str(cursong) + " | Playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+try:
+    log.info("SONG #" + str(cursong) + " | Playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+except:
+    log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
+    log.info("SONG #" + str(cursong) + " | Playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
 pygame.mixer.music.play(0, st)
 display = pygame.display.set_mode((1500, 900)) # 135
 pygame.display.set_caption(name)
@@ -245,7 +246,11 @@ while True:
                         img.write(albumart)
                 tracklength = mp3(songs[cursong]).info.length
                 metadata = id3(songs[cursong])
-                log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                try:
+                    log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                except:
+                    log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
+                    log.info("SONG #" + str(cursong) + " | Now playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
                 pygame.mixer.music.set_volume(volume)
                 pygame.mixer.music.play(0)
             elif event.type == MOUSEBUTTONDOWN:
@@ -288,8 +293,11 @@ while True:
                             img.write(albumart)
                     tracklength = mp3(songs[cursong]).info.length
                     metadata = id3(songs[cursong])
-                    print(cursong)
-                    log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                    try:
+                        log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                    except:
+                        log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
+                        log.info("SONG #" + str(cursong) + " | Now playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
                     pygame.mixer.music.set_volume(volume)
                     pygame.mixer.music.play(0)
                     st = 0
@@ -319,13 +327,23 @@ while True:
                             img.write(albumart)
                     tracklength = mp3(songs[cursong]).info.length
                     metadata = id3(songs[cursong])
-                    log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                    try:
+                        log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                    except:
+                        log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
+                        log.info("SONG #" + str(cursong) + " | Now playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
                     pygame.mixer.music.set_volume(volume)
                     pygame.mixer.music.play(0)
         display.fill((0, 0, 0))
-        title = font.render("Song: " + metadata['TIT2'].text[0], True, (255, 50, 255))
-        album = font.render("Album: " + metadata['TALB'].text[0], True, (255, 50, 255))
-        artist = font.render("Artist: " + metadata['TPE1'].text[0], True, (255, 50, 255))
+        try:
+            title = font.render("Song: " + metadata['TIT2'].text[0], True, (255, 50, 255))
+            album = font.render("Album: " + metadata['TALB'].text[0], True, (255, 50, 255))
+            artist = font.render("Artist: " + metadata['TPE1'].text[0], True, (255, 50, 255))
+        except:
+            splitdata = songs[cursong].split("/")
+            title = font.render("Song: " + splitdata[3].split(".")[0], True, (255, 50, 255))
+            album = font.render("Album: " + splitdata[2], True, (255, 50, 255))
+            artist = font.render("Artist: " + splitdata[1], True, (255, 50, 255))
         vol = font.render("Volume: " + str(int(volume * 100)) + "%", True, (255, 50, 255))
         display.blit(title, (0, 750))
         display.blit(album, (0, 784))

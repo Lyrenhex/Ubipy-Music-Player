@@ -39,11 +39,9 @@ Unsupported file types are skipped at index, and thus shouldn't break the player
 MP3 METADATA
 =============
 
-Currently, files must have the following metadata:
+Currently, files should have the following metadata:
 - TIT2 (in the Windows properties "details" section, this is called "Title")
 - TALB (Windows details: Album)
 - TPE1 (Windows details: Artist)
 
-This is planned to be improved at a later time so that files lacking metadata will be substituted for values based on their directory tree, but this is not yet the case.
-
-At the moment, mp3 files lacking required metadata will not be indexed.
+If the track name, album, or artist is not available via the file's metadata, then Ubipy will now resort to determine each respective piece of information via the song's file path.
