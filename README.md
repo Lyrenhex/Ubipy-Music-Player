@@ -2,10 +2,9 @@
 A free (libre and gratis) cross-platform music player written in Python.
 
 ## Supported File Types
-Currently, Ubipy only supports *most* MP3 files. Some are too complex for it, however, due to Pygame's (Ubipy is based off pygame) limitations.
-
-Planned support:
-- Ogg Vorbis (.ogg)
+Ubipy supports the following file types:
+- MP3 (audio only)
+- Ogg Vorbis (.ogg, tracklength dependant features are disabled for these files.)
 
 ## Metadata
 Ubipy, by default, determines track name, album, and artist from the mp3 metadata (specifically TIT2, TALB, and TPE1). More information regarding this is in the "Please read before adding music" file in the music folder.
