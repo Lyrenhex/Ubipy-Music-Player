@@ -32,7 +32,7 @@ For example:
 FILE TYPES
 ===========
 
-At the moment, *only* MP3 (MPEG-3 audio-only) files are usable. Ogg Vorbis files are planned to be supported later, and other file types may be added - however supported file types are currently limited by Pygame and SDL music support.
+MP3 and Ogg Vorbis (ogg) files are currently supported, although mp3 should be audio only. It should also be noted that Ogg Vorbis files do not support any track length-based features including the display of the song's length, the representation of how far through the song you are, and the ability to skip through to another part of the song. As a result, these features are disabled during playback of an Ogg Vorbis file, and will be re-enabled on the next mp3 file.
 
 Unsupported file types are skipped at index, and thus shouldn't break the player... No promises, though! (see license; warranty)
 
