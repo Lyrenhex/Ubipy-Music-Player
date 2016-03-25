@@ -125,26 +125,43 @@ log.info("Indexing songs... Please wait.")
 
 songs = []
 maxsong = -1
+ogg = False
 for folder in os.listdir("music"):
     if os.path.isdir(os.path.join("music", folder)):
         for subfolder in os.listdir(os.path.join("music", folder)):
             if os.path.isdir(os.path.join("music", folder, subfolder)):
-                for file in os.listdir(os.path.join("music", folder, subfolder)):
-                    if file.endswith(".mp3"):
+                for file in os.listdir(os.path.join("music", folder,
+                                                    subfolder)):
+                    if file.endswith(".mp3") or file.endswith(".ogg"):
                         try:
-                            metadata = id3(os.path.join("music", folder, subfolder, file))
-                            songs.append(os.path.join("music", folder, subfolder, file))
+                            metadata = id3(os.path.join("music", folder,
+                                                        subfolder, file))
+                            songs.append(os.path.join("music", folder,
+                                                      subfolder, file))
                             maxsong += 1
                         except Exception as e:
-                            log.exception("Exception while handling " + os.path.join("music", folder, subfolder, file) + ": " + e)
+                            log.exception("Exception while handling "
+                                          + os.path.join("music", folder,
+                                                         subfolder, file)
+                                          + ": " + e)
                             continue
+                    if file.endswith(".ogg"):
+                        ogg = True
+
+if ogg:
+    log.warn("""Ubipy has detected that some of your songs are in an Ogg Vorbis
+file format. Unfortunately, Ogg Vorbis (.ogg) are not fully supported (yet), and
+as a result, skipping to a specific part of these tracks, viewing the tracks'
+lengths, and other track length dependant features will not be available for
+these tracks.""")
 
 log.info("Songs available to play: " + str(maxsong + 1))
 if maxsong == -1:
-    log.critical("""No songs available to play. Please add songs, following this folder structure:
-    - artist
-        - album
-            - songs""")
+    log.critical("""No songs available to play. Please add songs, following this
+folder structure:
+    |-artist
+        |-album
+            |-songs""")
     sys.exit("critical error")
 
 ## print(songs)
@@ -160,7 +177,8 @@ print(songs) """
 #pygame.font.init()
 shuffle = False
 prev = pygame.transform.scale(pygame.image.load("res/prev.png"), (100, 100))
-pause = pygame.transform.scale(pygame.image.load("res/pause-new.png"), (100, 100))
+pause = pygame.transform.scale(pygame.image.load("res/pause-new.png"),
+                               (100, 100))
 play = pygame.transform.scale(pygame.image.load("res/play.png"), (100, 100))
 n3xt = pygame.transform.scale(pygame.image.load("res/next.png"), (100, 100))
 back = pygame.transform.scale(pygame.image.load("res/back.png"), (100, 100))
@@ -171,7 +189,8 @@ if os.path.isfile("#song.txt"):
         cursong = songs.index(f.read())
         f.close()
     except:
-        log.error("The song defined in #song.txt does not exist. Starting from 0.")
+        log.error("""The song defined in #song.txt does not exist.
+Starting from 0.""")
         cursong = 0
 else:
     cursong = 0
@@ -197,13 +216,22 @@ except:
     albumartf.close()
     with open("albumart.jpg", "wb") as img:
         img.write(albumart)
-tracklength = mp3(songs[cursong]).info.length
+if songs[cursong].endswith(".mp3"):
+    tracklength = mp3(songs[cursong]).info.length
+else:
+    tracklength = None
 metadata = id3(songs[cursong])
 try:
-    log.info("SONG #" + str(cursong) + " | Playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+    log.info("SONG #" + str(cursong) + " | Playing " + metadata['TIT2'].text[0]
+             + " in " + metadata['TALB'].text[0] + " by "
+             + metadata['TPE1'].text[0])
 except:
-    log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
-    log.info("SONG #" + str(cursong) + " | Playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
+    log.debug("Unable to get metadata for " + songs[cursong] + """.
+Basing it off directory tree instead.""")
+    log.info("SONG #" + str(cursong) + " | Playing "
+             + songs[cursong].split("/")[3].split(".")[0] + " in "
+             + songs[cursong].split("/")[2] + " by "
+             + songs[cursong].split("/")[1])
 pygame.mixer.music.play(0, st)
 display = pygame.display.set_mode((1500, 900)) # 135
 pygame.display.set_caption(name)
@@ -244,13 +272,23 @@ while True:
                     albumartf.close()
                     with open("albumart.jpg", "wb") as img:
                         img.write(albumart)
-                tracklength = mp3(songs[cursong]).info.length
+                if songs[cursong].endswith(".mp3"):
+                    tracklength = mp3(songs[cursong]).info.length
+                else:
+                    tracklength = None
                 metadata = id3(songs[cursong])
                 try:
-                    log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                    log.info("SONG #" + str(cursong) + " | Now playing "
+                             + metadata['TIT2'].text[0] + " in "
+                             + metadata['TALB'].text[0] + " by "
+                             + metadata['TPE1'].text[0])
                 except:
-                    log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
-                    log.info("SONG #" + str(cursong) + " | Now playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
+                    log.debug("Unable to get metadata for " + songs[cursong]
+                              + ". Basing it off directory tree instead.")
+                    log.info("SONG #" + str(cursong) + " | Now playing "
+                             + songs[cursong].split("/")[3].split(".")[0]
+                             + " in " + songs[cursong].split("/")[2] + " by "
+                             + songs[cursong].split("/")[1])
                 pygame.mixer.music.set_volume(volume)
                 pygame.mixer.music.play(0)
             elif event.type == MOUSEBUTTONDOWN:
@@ -263,11 +301,12 @@ while True:
                         volume -= 0.05
                         pygame.mixer.music.set_volume(volume)
                 if 885 <= posy <= 900:
-                    mpercent = posx / 1500 * 100
-                    secs = tracklength / 100 * mpercent
-                    st = secs
-                    pygame.mixer.music.play(0, secs)
-                    # print(mpercent, "%:", mseconds)
+                    if tracklength is not None:
+                        mpercent = posx / 1500 * 100
+                        secs = tracklength / 100 * mpercent
+                        st = secs
+                        pygame.mixer.music.play(0, secs)
+                        # print(mpercent, "%:", mseconds)
                 elif 1000 <= posx <= 1100 and 751 <= posy <= 851:
                     st = 0
                     pygame.mixer.music.play(0)
@@ -279,7 +318,7 @@ while True:
                         cursong = maxsong
                     try: # a few files are m4a, not mp3
                         pygame.mixer.music.load(songs[cursong])
-                    except: # file cannot be played - this shouldn't happen. ever.
+                    except: # file cannot be played
                         log.error("Could not play song:", songs[cursong])
                     try:
                         albumart = mfile(songs[cursong]).tags["APIC:"].data
@@ -291,13 +330,23 @@ while True:
                         albumartf.close()
                         with open("albumart.jpg", "wb") as img:
                             img.write(albumart)
-                    tracklength = mp3(songs[cursong]).info.length
+                    if songs[cursong].endswith(".mp3"):
+                        tracklength = mp3(songs[cursong]).info.length
+                    else:
+                        tracklength = None
                     metadata = id3(songs[cursong])
                     try:
-                        log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                        log.info("SONG #" + str(cursong) + " | Now playing "
+                                 + metadata['TIT2'].text[0] + " in "
+                                 + metadata['TALB'].text[0] + " by "
+                                 + metadata['TPE1'].text[0])
                     except:
-                        log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
-                        log.info("SONG #" + str(cursong) + " | Now playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
+                        log.debug("Unable to get metadata for " + songs[cursong]
+                                  + ". Basing it off directory tree instead.")
+                        log.info("SONG #" + str(cursong) + " | Now playing "
+                                 + songs[cursong].split("/")[3].split(".")[0]
+                                 + " in " + songs[cursong].split("/")[2]
+                                 + " by " + songs[cursong].split("/")[1])
                     pygame.mixer.music.set_volume(volume)
                     pygame.mixer.music.play(0)
                     st = 0
@@ -325,26 +374,42 @@ while True:
                         albumartf.close()
                         with open("albumart.jpg", "wb") as img:
                             img.write(albumart)
-                    tracklength = mp3(songs[cursong]).info.length
+                    if songs[cursong].endswith(".mp3"):
+                        tracklength = mp3(songs[cursong]).info.length
+                    else:
+                        tracklength = None
                     metadata = id3(songs[cursong])
                     try:
-                        log.info("SONG #" + str(cursong) + " | Now playing " + metadata['TIT2'].text[0] + " in " + metadata['TALB'].text[0] + " by " + metadata['TPE1'].text[0])
+                        log.info("SONG #" + str(cursong) + " | Now playing "
+                                 + metadata['TIT2'].text[0] + " in "
+                                 + metadata['TALB'].text[0] + " by "
+                                 + metadata['TPE1'].text[0])
                     except:
-                        log.debug("Unable to get metadata for " + songs[cursong] + ". Basing it off directory tree instead.")
-                        log.info("SONG #" + str(cursong) + " | Now playing " + songs[cursong].split("/")[3].split(".")[0] + " in " + songs[cursong].split("/")[2] + " by " + songs[cursong].split("/")[1])
+                        log.debug("Unable to get metadata for " + songs[cursong]
+                                  + ". Basing it off directory tree instead.")
+                        log.info("SONG #" + str(cursong) + " | Now playing "
+                                 + songs[cursong].split("/")[3].split(".")[0]
+                                 + " in " + songs[cursong].split("/")[2]
+                                 + " by " + songs[cursong].split("/")[1])
                     pygame.mixer.music.set_volume(volume)
                     pygame.mixer.music.play(0)
         display.fill((0, 0, 0))
         try:
-            title = font.render("Song: " + metadata['TIT2'].text[0], True, (255, 50, 255))
-            album = font.render("Album: " + metadata['TALB'].text[0], True, (255, 50, 255))
-            artist = font.render("Artist: " + metadata['TPE1'].text[0], True, (255, 50, 255))
+            title = font.render("Song: " + metadata['TIT2'].text[0], True,
+                                (255, 50, 255))
+            album = font.render("Album: " + metadata['TALB'].text[0], True,
+                                (255, 50, 255))
+            artist = font.render("Artist: " + metadata['TPE1'].text[0], True,
+                                 (255, 50, 255))
         except:
             splitdata = songs[cursong].split("/")
-            title = font.render("Song: " + splitdata[3].split(".")[0], True, (255, 50, 255))
+            title = font.render("Song: " + splitdata[3].split(".")[0], True,
+                                (255, 50, 255))
             album = font.render("Album: " + splitdata[2], True, (255, 50, 255))
-            artist = font.render("Artist: " + splitdata[1], True, (255, 50, 255))
-        vol = font.render("Volume: " + str(int(volume * 100)) + "%", True, (255, 50, 255))
+            artist = font.render("Artist: " + splitdata[1], True,
+                                 (255, 50, 255))
+        vol = font.render("Volume: " + str(int(volume * 100)) + "%", True,
+                          (255, 50, 255))
         display.blit(title, (0, 750))
         display.blit(album, (0, 784))
         display.blit(artist, (0, 817))
@@ -354,34 +419,48 @@ while True:
         display.blit(pause, (1200, 751))
         display.blit(play, (1300, 751))
         display.blit(n3xt, (1400, 751))
-        display.blit(pygame.transform.scale(pygame.image.load("albumart.jpg"), (750, 750)), (375, 0))
+        display.blit(pygame.transform.scale(pygame.image.load("albumart.jpg"),
+                                            (750, 750)), (375, 0))
         if cursong == startsong:
             minutes = (pygame.mixer.music.get_pos() // 60000) + (int(st) // 60)
-            seconds = ((pygame.mixer.music.get_pos() // 1000) + int(st)) - (minutes * 60)
+            seconds = ((pygame.mixer.music.get_pos() // 1000)
+                       + int(st)) - (minutes * 60)
         else:
             minutes = pygame.mixer.music.get_pos() // 60000
             seconds = pygame.mixer.music.get_pos() // 1000 - (minutes * 60)
-        trackmin = int(tracklength // 60)
-        tracksec = int(tracklength - (trackmin * 60))
-        playtime = font.render(str(minutes) + ":" + str(seconds) + " / " + str(trackmin) + ":" + str(tracksec), True, (255, 50, 255))
+        if tracklength is not None:
+            trackmin = int(tracklength // 60)
+            tracksec = int(tracklength - (trackmin * 60))
+            playtime = font.render(str(minutes) + ":" + str(seconds) + " / "
+                               + str(trackmin) + ":" + str(tracksec), True,
+                               (255, 50, 255))
+        else:
+            playtime = font.render(str(minutes) + ":" + str(seconds), True,
+                                   (255, 50, 255))
         display.blit(playtime, (1360, 852))
 ##        if cursong == startsong:
         minutes = (pygame.mixer.music.get_pos() // 60000) + (int(st) // 60)
-        seconds = ((pygame.mixer.music.get_pos() // 1000) + int(st)) - (minutes * 60)
-        percent = (pygame.mixer.music.get_pos() / 1000 + int(st)) / tracklength * 100
+        seconds = ((pygame.mixer.music.get_pos() // 1000)
+                   + int(st)) - (minutes * 60)
+        if tracklength is not None:
+            percent = (pygame.mixer.music.get_pos() / 1000
+                       + int(st)) / tracklength * 100
 ##        else:
 ##            minutes = pygame.mixer.music.get_pos() // 60000
 ##            seconds = pygame.mixer.music.get_pos() // 1000 - (minutes * 60)
 ##            percent = (pygame.mixer.music.get_pos() / 1000) / tracklength * 100
         pygame.draw.rect(display, (255, 200, 255), (0, 885, 1500, 15))
-        if 885 <= posy <= 900:
+        if 885 <= posy <= 900 and tracklength is not None:
             mpercent = posx / 1500 * 100
             if mpercent > percent:
-                pygame.draw.rect(display, (255, 0, 255), (0, 885, (1500 / 100 * mpercent), 15))
-        pygame.draw.rect(display, (255, 100, 255), (0, 885, (1500 / 100 * percent), 15))
-        if 885 <= posy <= 900:
-            if mpercent <= percent:
-                pygame.draw.rect(display, (255, 0, 255), (0, 885, (1500 / 100 * mpercent), 15))
+                pygame.draw.rect(display, (255, 0, 255),
+                                 (0, 885, (1500 / 100 * mpercent), 15))
+            pygame.draw.rect(display, (255, 100, 255),
+                             (0, 885, (1500 / 100 * percent), 15))
+            if 885 <= posy <= 900:
+                if mpercent <= percent:
+                    pygame.draw.rect(display, (255, 0, 255),
+                                     (0, 885, (1500 / 100 * mpercent), 15))
         pygame.display.update()
     except Exception as e:
         log.exception(e)
