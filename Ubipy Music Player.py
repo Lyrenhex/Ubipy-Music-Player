@@ -192,6 +192,12 @@ pause = pygame.transform.scale(pygame.image.load("res/pause-new.png"),
 play = pygame.transform.scale(pygame.image.load("res/play.png"), (100, 100))
 n3xt = pygame.transform.scale(pygame.image.load("res/next.png"), (100, 100))
 back = pygame.transform.scale(pygame.image.load("res/back.png"), (100, 100))
+shufflebtn = {
+    "True" : pygame.transform.scale(pygame.image.load("res/shuffle-True.png"),
+                                    (100, 100)),
+    "False" : pygame.transform.scale(pygame.image.load("res/shuffle-False.png"),
+                                    (100, 100))
+}
 font = pygame.font.SysFont("times new roman", 33)
 if os.path.isfile("#song.txt"):
     try:
@@ -431,6 +437,8 @@ while True:
                                          + " by " + songs[cursong].split("/")[1])
                             pygame.mixer.music.set_volume(volume)
                             pygame.mixer.music.play(0)
+                elif 900 <= posx <= 1000 and 751 <= posy <= 851:
+                    shuffle = not shuffle
                 elif 1000 <= posx <= 1100 and 751 <= posy <= 851:
                     st = 0
                     pygame.mixer.music.play(0)
@@ -538,6 +546,7 @@ while True:
         display.blit(album, (0, 784))
         display.blit(artist, (0, 817))
         display.blit(vol, (0, 851))
+        display.blit(shufflebtn[str(shuffle)], (900, 751))
         display.blit(back, (1000, 751))
         display.blit(prev, (1100, 751))
         display.blit(pause, (1200, 751))
