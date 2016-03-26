@@ -15,3 +15,6 @@ If the track name, album, or artist is not available via the file's metadata, th
 
 ## Support
 Support with this project is welcome, hence the GNU GPL v3 license. If you'd like to tackle an issue, submit an issue, or submit a pull request, feel free. Or just spin off entirely if you want. :)
+
+## Screenshots
+![Ubipy Screenshot - 25/03/2016](https://github.com/Scratso/Ubipy-Music-Player/screenshot.xcf)
