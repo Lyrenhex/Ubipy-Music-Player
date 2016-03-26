@@ -456,12 +456,16 @@ while True:
                             cursong -= 1
                         else:
                             cursong = maxsong
+                        if shuffle:
+                            song = shuffledSongs[cursong]
+                        else:
+                            song = songs[cursong]
                         try: # a few files are m4a, not mp3
-                            pygame.mixer.music.load(songs[cursong])
-                        except: # file cannot be played
-                            log.error("Could not play song:", songs[cursong])
+                            pygame.mixer.music.load(song)
+                        except: # file cannot be played - this shouldn't happen. ever.
+                            log.error("Could not play song:", song)
                         try:
-                            albumart = mfile(songs[cursong]).tags["APIC:"].data
+                            albumart = mfile(song).tags["APIC:"].data
                             with open("albumart.jpg", "wb") as img:
                                 img.write(albumart)
                         except:
@@ -470,23 +474,23 @@ while True:
                             albumartf.close()
                             with open("albumart.jpg", "wb") as img:
                                 img.write(albumart)
-                        if songs[cursong].endswith(".mp3"):
-                            tracklength = mp3(songs[cursong]).info.length
+                        if song.endswith(".mp3"):
+                            tracklength = mp3(song).info.length
                         else:
                             tracklength = None
-                        metadata = id3(songs[cursong])
+                        metadata = id3(song)
                         try:
                             log.info("SONG #" + str(cursong) + " | Now playing "
                                      + metadata['TIT2'].text[0] + " in "
                                      + metadata['TALB'].text[0] + " by "
                                      + metadata['TPE1'].text[0])
                         except:
-                            log.debug("Unable to get metadata for " + songs[cursong]
+                            log.debug("Unable to get metadata for " + song
                                       + ". Basing it off directory tree instead.")
                             log.info("SONG #" + str(cursong) + " | Now playing "
-                                     + songs[cursong].split("/")[3].split(".")[0]
-                                     + " in " + songs[cursong].split("/")[2]
-                                     + " by " + songs[cursong].split("/")[1])
+                                     + song.split("/")[3].split(".")[0]
+                                     + " in " + song.split("/")[2] + " by "
+                                     + song.split("/")[1])
                         pygame.mixer.music.set_volume(volume)
                         pygame.mixer.music.play(0)
                         st = 0
@@ -500,12 +504,16 @@ while True:
                             cursong += 1
                         else:
                             cursong = 0
+                        if shuffle:
+                            song = shuffledSongs[cursong]
+                        else:
+                            song = songs[cursong]
                         try: # a few files are m4a, not mp3
-                            pygame.mixer.music.load(songs[cursong])
+                            pygame.mixer.music.load(song)
                         except: # file cannot be played - this shouldn't happen. ever.
-                            log.error("Could not play song:", songs[cursong])
+                            log.error("Could not play song:", song)
                         try:
-                            albumart = mfile(songs[cursong]).tags["APIC:"].data
+                            albumart = mfile(song).tags["APIC:"].data
                             with open("albumart.jpg", "wb") as img:
                                 img.write(albumart)
                         except:
@@ -514,23 +522,23 @@ while True:
                             albumartf.close()
                             with open("albumart.jpg", "wb") as img:
                                 img.write(albumart)
-                        if songs[cursong].endswith(".mp3"):
-                            tracklength = mp3(songs[cursong]).info.length
+                        if song.endswith(".mp3"):
+                            tracklength = mp3(song).info.length
                         else:
                             tracklength = None
-                        metadata = id3(songs[cursong])
+                        metadata = id3(song)
                         try:
                             log.info("SONG #" + str(cursong) + " | Now playing "
                                      + metadata['TIT2'].text[0] + " in "
                                      + metadata['TALB'].text[0] + " by "
                                      + metadata['TPE1'].text[0])
                         except:
-                            log.debug("Unable to get metadata for " + songs[cursong]
+                            log.debug("Unable to get metadata for " + song
                                       + ". Basing it off directory tree instead.")
                             log.info("SONG #" + str(cursong) + " | Now playing "
-                                     + songs[cursong].split("/")[3].split(".")[0]
-                                     + " in " + songs[cursong].split("/")[2]
-                                     + " by " + songs[cursong].split("/")[1])
+                                     + song.split("/")[3].split(".")[0]
+                                     + " in " + song.split("/")[2] + " by "
+                                     + song.split("/")[1])
                         pygame.mixer.music.set_volume(volume)
                         pygame.mixer.music.play(0)
         display.fill((0, 0, 0))
