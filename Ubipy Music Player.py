@@ -162,11 +162,7 @@ for folder in os.listdir("music"):
                     if file.endswith(".ogg"):
                         ogg = True
 
-print(songs)
-
 random.shuffle(shuffledSongs)
-
-print(songs)
 
 if ogg:
     log.warn("""Ubipy has detected that some of your songs are in an Ogg Vorbis
