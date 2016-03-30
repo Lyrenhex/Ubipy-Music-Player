@@ -37,6 +37,7 @@ import os
 import time
 import logging
 import easygui
+import random
 
 # Print the GNU GPL
 print(name + """  Copyright (C) 2016 Damian Heaton
@@ -126,6 +127,7 @@ volume = 0.75
 log.info("Indexing songs... Please wait.")
 
 songs = []
+shuffledSongs = []
 artists = []
 artists2 = []
 albums = []
@@ -148,6 +150,8 @@ for folder in os.listdir("music"):
                                                         subfolder, file))
                             songs.append(os.path.join("music", folder,
                                                       subfolder, file))
+                            shuffledSongs.append(os.path.join("music", folder,
+                                                      subfolder, file))
                             maxsong += 1
                         except Exception as e:
                             log.error("Exception while handling "
@@ -158,8 +162,11 @@ for folder in os.listdir("music"):
                     if file.endswith(".ogg"):
                         ogg = True
 
-shuffleSongs = songs
-random.shuffle(shuffleSongs)
+print(songs)
+
+random.shuffle(shuffledSongs)
+
+print(songs)
 
 if ogg:
     log.warn("""Ubipy has detected that some of your songs are in an Ogg Vorbis
@@ -275,7 +282,7 @@ while True:
                     cursong += 1
                 else:
                     cursong = 0
-                if shuffle:
+                if shuffle == True:
                     song = shuffledSongs[cursong]
                 else:
                     song = songs[cursong]
@@ -456,7 +463,7 @@ while True:
                             cursong -= 1
                         else:
                             cursong = maxsong
-                        if shuffle:
+                        if shuffle == True:
                             song = shuffledSongs[cursong]
                         else:
                             song = songs[cursong]
@@ -504,7 +511,7 @@ while True:
                             cursong += 1
                         else:
                             cursong = 0
-                        if shuffle:
+                        if shuffle == True:
                             song = shuffledSongs[cursong]
                         else:
                             song = songs[cursong]
