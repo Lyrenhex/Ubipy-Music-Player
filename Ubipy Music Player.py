@@ -25,6 +25,7 @@ easygui
 
 name = "Ubipy Music Player"
 relt = "LibPlayer"
+verid = "0.7.1"
 debug = True
 
 import pygame
@@ -38,59 +39,13 @@ import time
 import logging
 import easygui
 import random
+import urllib.request
+import webbrowser
+import src.Legal
+import src.Update
+import src.Index
 
-# Print the GNU GPL
-print(name + """  Copyright (C) 2016 Damian Heaton
-This program comes with ABSOLUTELY NO WARRANTY; type 'show w'.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type 'show c'.
-http://gnu.org/licenses/gpl.html for details.
-Otherwise, press enter (or any other command) to run.""")
-
-i = 1
-while i == 1:
-    cmd = input("> ").lower()
-    if cmd == "show w":
-        print("""
-15. Disclaimer of Warranty.
-
-THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE
-LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR
-OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND,
-EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
-ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.
-SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY
-SERVICING, REPAIR OR CORRECTION.
-""")
-    elif cmd == "show c":
-        print("""
-2. Basic Permissions.
-
-All rights granted under this License are granted for the term of copyright
-on the Program, and are irrevocable provided the stated conditions are met.
-This License explicitly affirms your unlimited permission to run the
-unmodified Program. The output from running a covered work is covered by
-this License only if the output, given its content, constitutes a covered
-work. This License acknowledges your rights of fair use or other equivalent,
-as provided by copyright law. You may make, run and propagate covered works
-that you do not convey, without conditions so long as your license otherwise
-remains in force. You may convey covered works to others for the sole purpose
-of having them make modifications exclusively for you, or provide you with
-facilities for running those works, provided that you comply with the terms
-of this License in conveying all material for which you do not control
-copyright. Those thus making or running the covered works for you must do
-so exclusively on your behalf, under your direction and control, on terms
-that prohibit them from making any copies of your copyrighted material outside
-their relationship with you. Conveying under any other circumstances is
-permitted solely under the conditions stated below. Sublicensing is not
-allowed; section 10 makes it unnecessary.
-""")
-    elif cmd == "show":
-        print("show c for conditions, show w for warranty")
-    else:
-        i = 0
-        print("Running program.")
+src.Legal.printGNU(name)
 
 if debug:
     loglev = logging.DEBUG
@@ -100,7 +55,7 @@ log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s',
-                              '%d/%m/%Y %I:%M:%S %P')
+                              '%d/%m/%Y %H:%M:%S %p')
 
 fh = logging.FileHandler(name + '.log')
 fh.setLevel(logging.DEBUG)
@@ -118,6 +73,8 @@ log.addHandler(ch)
 
 log.debug("========= START =========")
 
+src.Update.update(name, log, verid, "ubipy")
+
 pygame.mixer.init()
 pygame.display.init()
 pygame.font.init()
@@ -126,43 +83,16 @@ volume = 0.75
 
 log.info("Indexing songs... Please wait.")
 
-songs = []
-shuffledSongs = []
-artists = []
-artists2 = []
-albums = []
-albums2 = []
-maxsong = -1
-ogg = False
-for folder in os.listdir("music"):
-    if os.path.isdir(os.path.join("music", folder)):
-        artists.append(os.path.join("music", folder))
-        artists2.append(folder)
-        for subfolder in os.listdir(os.path.join("music", folder)):
-            if os.path.isdir(os.path.join("music", folder, subfolder)):
-                albums.append(os.path.join("music", folder, subfolder))
-                albums2.append(subfolder + ", by " + folder)
-                for file in os.listdir(os.path.join("music", folder,
-                                                    subfolder)):
-                    if file.endswith(".mp3") or file.endswith(".ogg"):
-                        try:
-                            metadata = id3(os.path.join("music", folder,
-                                                        subfolder, file))
-                            songs.append(os.path.join("music", folder,
-                                                      subfolder, file))
-                            shuffledSongs.append(os.path.join("music", folder,
-                                                      subfolder, file))
-                            maxsong += 1
-                        except Exception as e:
-                            log.error("Exception while handling "
-                                          + os.path.join("music", folder,
-                                                         subfolder, file)
-                                          + ": " + e)
-                            continue
-                    if file.endswith(".ogg"):
-                        ogg = True
+indexedSongs = src.Index.indexAll()
 
-random.shuffle(shuffledSongs)
+maxsong = indexedSongs[0]
+ogg = indexedSongs[1]
+songs = indexedSongs[2]
+shuffledSongs = indexedSongs[3]
+artists = indexedSongs[4]
+artists2 = indexedSongs[5]
+albums = indexedSongs[6]
+albums2 = indexedSongs[7]
 
 if ogg:
     log.warn("""Ubipy has detected that some of your songs are in an Ogg Vorbis
@@ -337,26 +267,13 @@ while True:
                             folder = easygui.choicebox("Please enter the artist you\
      wish to listen to.", "Ubipy :: Select artist", artists2)
                             if folder is not None:
-                                songs = []
-                                maxsong = -1
+                                # IMPORTANT NTS
+                                # try: src.Index.indexArtist(folder)
+                                indexedSongs = src.Index.indexArtist(folder)
+                                maxsong = indexedSongs[0]
+                                songs = indexedSongs[1]
+                                shuffledSongs = indexedSongs[2]
                                 cursong = 0
-                                for subfolder in os.listdir(artists[artists2.index(folder)]):
-                                    if os.path.isdir(os.path.join("music", folder, subfolder)):
-                                        for file in os.listdir(os.path.join("music", folder,
-                                                                            subfolder)):
-                                            if file.endswith(".mp3") or file.endswith(".ogg"):
-                                                try:
-                                                    songs.append(os.path.join("music", folder,
-                                                                              subfolder, file))
-                                                    maxsong += 1
-                                                except Exception as e:
-                                                    log.error("Exception while handling "
-                                                                  + os.path.join("music", folder,
-                                                                                 subfolder, file)
-                                                                  + ": " + e)
-                                                    continue
-                                shuffledSongs = songs
-                                random.shuffle(shuffledSongs)
                                 st = 0.0
                                 try: # a few files are m4a, not mp3
                                     pygame.mixer.music.load(songs[cursong])
@@ -398,22 +315,11 @@ while True:
                                 album = album.split(", by ")
                                 folder = album[1]
                                 subfolder = album[0]
-                                songs = []
-                                maxsong = -1
+                                indexedSongs = src.Index.indexAlbum(folder, subfolder)
+                                maxsong = indexedSongs[0]
+                                songs = indexedSongs[1]
+                                shuffledSongs = indexedSongs[2]
                                 cursong = 0
-                                for file in os.listdir(os.path.join("music", folder,
-                                                                    subfolder)):
-                                    if file.endswith(".mp3") or file.endswith(".ogg"):
-                                        try:
-                                            songs.append(os.path.join("music", folder,
-                                                                      subfolder, file))
-                                            maxsong += 1
-                                        except Exception as e:
-                                            log.error("Exception while handling "
-                                                          + os.path.join("music", folder,
-                                                                         subfolder, file)
-                                                          + ": " + e)
-                                            continue
                                 st = 0.0
                                 try: # a few files are m4a, not mp3
                                     pygame.mixer.music.load(songs[cursong])

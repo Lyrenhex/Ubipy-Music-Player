@@ -1,0 +1,10 @@
+COMPILATION:
+
+Currently waiting for a release of cx_Freeze to be released for Python 3.5.1.
+Once done, release Ubipy with built-in update checker.
+Release MSI (and a linux deb, if possible)
+
+TODO:
+- Fix song saving (https://github.com/Scratso/Ubipy-Music-Player/issues/6)
+- Fix artist and album -only shuffle problems (https://github.com/Scratso/Ubipy-Music-Player/issues/7)
+- Handle albumart substitution (https://github.com/Scratso/Ubipy-Music-Player/issues/5)
