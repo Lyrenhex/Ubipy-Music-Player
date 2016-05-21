@@ -1,0 +1,14 @@
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Release\Liberation Launcher.exe
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Release\Liberation Launcher.pdb
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Release\Liberation Launcher.xml
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation_Launcher.frmAbout.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation_Launcher.frmCredits.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation_Launcher.frmLauncher.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation_Launcher.frmLog.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation_Launcher.Resources.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation Launcher.vbproj.GenerateResource.Cache
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation Launcher.exe
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation Launcher.xml
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation Launcher.pdb
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Release\Liberation Launcher.exe.config
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation_Launcher.frmReg.resources

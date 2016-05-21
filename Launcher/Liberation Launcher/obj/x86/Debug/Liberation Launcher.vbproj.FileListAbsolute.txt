@@ -1,0 +1,44 @@
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\bin\Debug\Liberation Launcher.exe
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\bin\Debug\Liberation Launcher.pdb
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\bin\Debug\Liberation Launcher.xml
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.About.resources
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmLauncher.resources
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.Resources.resources
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\obj\x86\Debug\Liberation Launcher.vbproj.GenerateResource.Cache
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\obj\x86\Debug\Liberation Launcher.exe
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\obj\x86\Debug\Liberation Launcher.xml
+C:\Users\13DHeaton\AppData\Local\Temporary Projects\Liberation Launcher\obj\x86\Debug\Liberation Launcher.pdb
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.exe
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.xml
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.pdb
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.exe
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.pdb
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.xml
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmLauncher.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.Resources.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.vbproj.GenerateResource.Cache
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmAbout.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmCredits.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmLog.resources
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.exe.config
+H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmReg.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.exe.config
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.exe
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.xml
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.pdb
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.exe
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.pdb
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.xml
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.vbprojResolveAssemblyReference.cache
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmAbout.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmCredits.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmLauncher.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmLog.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmReg.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.Resources.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.vbproj.GenerateResource.Cache
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.exe.config
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.exe
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.xml
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.pdb
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Ubipy Launcher.exe.config

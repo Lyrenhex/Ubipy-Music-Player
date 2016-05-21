@@ -194,8 +194,12 @@ while True:
             if event.type == QUIT:
                 display.fill((255, 0, 0))
                 pygame.display.update()
+                if shuffle:
+                    song = shuffledSongs[cursong]
+                else:
+                    song = songs[cursong]
                 f = open("#song.txt", "w")
-                f.write(songs[cursong])
+                f.write(song)
                 f.close()
                 f = open("#songt.txt", "w")
                 f.write(str(pygame.mixer.music.get_pos() / 1000 + st))
