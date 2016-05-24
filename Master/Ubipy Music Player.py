@@ -41,6 +41,7 @@ import easygui
 import random
 import urllib.request
 import webbrowser
+from ftplib import FTP, error_perm
 import src.Legal
 import src.Update
 import src.Index
@@ -74,6 +75,64 @@ log.addHandler(ch)
 log.debug("========= START =========")
 
 src.Update.update(name, log, verid, "ubipy")
+
+# FTP CONFIGURATION
+ftpOn = False # set this to True to enable ftp
+ftpHost = "ftp.example.com" # change this to match your FTP server
+ftpUser = None # if you wish to login, set this to a string containing your username
+ftpPass = None # as above, but for passwords.
+
+def traverse(ftp, depth=0):
+    # many thanks to abbott at 
+    # http://stackoverflow.com/questions/1854572/traversing-ftp-listing
+    """
+    return a recursive listing of an ftp server contents (starting
+    from the current directory)
+
+    listing is returned as a recursive dictionary, where each key
+    contains a contents of the subdirectory or None if it corresponds
+    to a file.
+
+    @param ftp: ftplib.FTP object
+    """
+    if depth > 10:
+        return ['depth > 10']
+    level = {}
+    for entry in (path for path in ftp.nlst() if path not in ('.', '..', '.ftpquota')):
+        try:
+            ftp.cwd(entry)
+            level[entry] = traverse(ftp, depth+1)
+            ftp.cwd('..')
+        except error_perm:
+            level[entry] = None
+    return level
+
+if ftpOn:
+    log.debug("Connecting to FTP server...")
+    ftp = FTP(ftpHost)
+    if ftpUser is not None:
+        resp = ftp.login(ftpUser, ftpPass)
+    if "230" not in resp:
+        log.error("Incorrect login details for FTP server.")
+        log.info(resp)
+        ftpOn = False
+
+if ftpOn:
+    log.debug("Connected and logged in. Gathering list of songs in FTP server...")
+    ftpfiles = traverse(ftp)
+    log.debug("Downloading any new files...")
+    for artist in ftpfiles:
+        if not os.path.isdir("music\\" + artist):
+            os.mkdir("music\\" + artist)
+        for album in ftpfiles[artist]:
+            if not os.path.isdir("music\\" + artist + "\\" + album):
+                os.mkdir("music\\" + artist + "\\" + album)
+            for song in ftpfiles[artist][album]:
+                if not os.path.isfile("music\\" + artist + "\\" + album + "\\" + song):
+                    ftp.retrbinary('RETR ' + artist + "/" + album + "/" + song, open("music\\" + artist + "\\" + album + "\\" + song, 'wb').write)
+    log.debug("Updated song library.")
+    
+    
 
 pygame.mixer.init()
 pygame.display.init()
@@ -109,6 +168,26 @@ folder structure:
         |-album
             |-songs""")
     sys.exit("critical error")
+    
+if ftpOn:
+    log.debug("Updating FTP server...")
+    for artist in artists:
+        artist = artist.split("\\")[-1]
+        if artist not in ftp.nlst():
+            ftp.mkd(artist)
+    for album in albums:
+        artist = album.split("\\")[-2]
+        album2 = album.split("\\")[-1]
+        if album2 not in ftp.nlst(artist):
+            ftp.mkd(artist + "/" + album2)
+    for song in songs:
+        artist = song.split("\\")[-3]
+        album2 = song.split("\\")[-2]
+        song2 = song.split("\\")[-1]
+        if song2 not in ftp.nlst(artist + "/" + album2):
+            ftp.storbinary('STOR ' + artist + "/" + album2 + "/" + song2, open(song, 'rb'))
+    log.debug("Updated FTP server.")
+    
 
 ## print(songs)
 ## sys.exit("test")
