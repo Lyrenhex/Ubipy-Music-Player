@@ -76,11 +76,43 @@ log.debug("========= START =========")
 
 src.Update.update(name, log, verid, "ubipy")
 
-# FTP CONFIGURATION
-ftpOn = False # set this to True to enable ftp
-ftpHost = "ftp.example.com" # change this to match your FTP server
-ftpUser = None # if you wish to login, set this to a string containing your username
-ftpPass = None # as above, but for passwords.
+class ftpData(
+        easygui.EgStore):  # Create a class named ftpData inheriting from easygui.EgStore so that I can persist
+    # FTP info.
+    def __init__(self, filename):  # filename is required
+        # -------------------------------------------------
+        # Specify default/initial values for variables that
+        # this particular application wants to remember.
+        # -------------------------------------------------
+        self.ftpSet = False
+        self.ftpOn = False # set this to True to enable ftp
+        self.ftpHost = "ftp.example.com" # change this to match your FTP server
+        self.ftpUser = None # if you wish to login, set this to a string containing your username
+        self.ftpPass = None # as above, but for passwords.
+        
+        # -------------------------------------------------
+        # For subclasses of EgStore, these must be
+        # the last two statements in  __init__
+        # -------------------------------------------------
+        self.filename = filename  # this is required
+        self.restore()  # restore values from the storage file if possible
+
+ftpServ = ftpData(os.path.join("ftp.ui"))
+
+if not ftpServ.ftpSet:
+    turnOn = easygui.ynbox("Would you like to sync music with an FTP server?", "FTP Server")
+    ftpServ.ftpOn = turnOn
+    ftpServ.ftpSet = True
+
+if ftpServ.ftpOn:
+    ftpInfo = easygui.multpasswordbox("Please enter the FTP server details. Please note that the FTP account must have read / write permissions. Anonymous is not supported.", "FTP Server Configuration", ["IP Address", "Username", "Password"], [str(ftpServ.ftpHost), str(ftpServ.ftpUser), str(ftpServ.ftpPass)])
+    if ftpInfo is not None:
+        ftpServ.ftpHost = ftpInfo[0]
+        ftpServ.ftpUser = ftpInfo[1]
+        ftpServ.ftpPass = ftpInfo[2]
+    else:
+        ftpServ.ftpOn = False
+        ftpServ.ftpSet = False
 
 def traverse(ftp, depth=0):
     # many thanks to abbott at 
@@ -107,17 +139,17 @@ def traverse(ftp, depth=0):
             level[entry] = None
     return level
 
-if ftpOn:
+if ftpServ.ftpOn:
     log.debug("Connecting to FTP server...")
-    ftp = FTP(ftpHost)
-    if ftpUser is not None:
-        resp = ftp.login(ftpUser, ftpPass)
+    ftp = FTP(ftpServ.ftpHost)
+    if ftpServ.ftpUser is not None:
+        resp = ftp.login(ftpServ.ftpUser, ftpServ.ftpPass)
     if "230" not in resp:
         log.error("Incorrect login details for FTP server.")
         log.info(resp)
-        ftpOn = False
+        ftpServ.ftpOn = False
 
-if ftpOn:
+if ftpServ.ftpOn:
     log.debug("Connected and logged in. Gathering list of songs in FTP server...")
     ftpfiles = traverse(ftp)
     log.debug("Downloading any new files...")
@@ -131,6 +163,8 @@ if ftpOn:
                 if not os.path.isfile("music\\" + artist + "\\" + album + "\\" + song):
                     ftp.retrbinary('RETR ' + artist + "/" + album + "/" + song, open("music\\" + artist + "\\" + album + "\\" + song, 'wb').write)
     log.debug("Updated song library.")
+    
+ftpServ.store()
     
     
 
@@ -167,9 +201,10 @@ folder structure:
     |-artist
         |-album
             |-songs""")
-    sys.exit("critical error")
+    while True:
+        time.sleep(1)
     
-if ftpOn:
+if ftpServ.ftpOn:
     log.debug("Updating FTP server...")
     for artist in artists:
         artist = artist.split("\\")[-1]
@@ -187,6 +222,7 @@ if ftpOn:
         if song2 not in ftp.nlst(artist + "/" + album2):
             ftp.storbinary('STOR ' + artist + "/" + album2 + "/" + song2, open(song, 'rb'))
     log.debug("Updated FTP server.")
+    ftp.close()
     
 
 ## print(songs)

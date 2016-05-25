@@ -22,8 +22,6 @@ Partial Class frmLauncher
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLauncher))
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -51,22 +49,10 @@ Partial Class frmLauncher
         Me.pbDl = New System.Windows.Forms.ProgressBar()
         Me.lblLaunch = New System.Windows.Forms.Button()
         Me.txtLog = New System.Windows.Forms.TextBox()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.KillSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(0, -124)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(800, 451)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.PictureBox1.TabIndex = 0
-        Me.PictureBox1.TabStop = False
         '
         'MenuStrip1
         '
@@ -134,7 +120,7 @@ Partial Class frmLauncher
         '
         'AdvancedToolStripMenuItem
         '
-        Me.AdvancedToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForceValidationToolStripMenuItem, Me.RedownloadFLToolStripMenuItem, Me.ViewLogToolStripMenuItem})
+        Me.AdvancedToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForceValidationToolStripMenuItem, Me.RedownloadFLToolStripMenuItem, Me.ViewLogToolStripMenuItem, Me.ToolStripMenuItem3, Me.KillSettingsToolStripMenuItem})
         Me.AdvancedToolStripMenuItem.Name = "AdvancedToolStripMenuItem"
         Me.AdvancedToolStripMenuItem.Size = New System.Drawing.Size(72, 20)
         Me.AdvancedToolStripMenuItem.Text = "Advanced"
@@ -222,11 +208,11 @@ Partial Class frmLauncher
         Me.webMain.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.webMain.Location = New System.Drawing.Point(7, 333)
+        Me.webMain.Location = New System.Drawing.Point(7, 33)
         Me.webMain.MinimumSize = New System.Drawing.Size(20, 20)
         Me.webMain.Name = "webMain"
         Me.webMain.ScriptErrorsSuppressed = True
-        Me.webMain.Size = New System.Drawing.Size(758, 345)
+        Me.webMain.Size = New System.Drawing.Size(758, 450)
         Me.webMain.TabIndex = 2
         Me.webMain.Url = New System.Uri("http://scratso.xyz/archives/ubipy", System.UriKind.Absolute)
         '
@@ -234,7 +220,7 @@ Partial Class frmLauncher
         '
         Me.pbDl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbDl.Location = New System.Drawing.Point(7, 689)
+        Me.pbDl.Location = New System.Drawing.Point(7, 489)
         Me.pbDl.Name = "pbDl"
         Me.pbDl.Size = New System.Drawing.Size(757, 29)
         Me.pbDl.TabIndex = 3
@@ -242,7 +228,7 @@ Partial Class frmLauncher
         'lblLaunch
         '
         Me.lblLaunch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblLaunch.Location = New System.Drawing.Point(661, 691)
+        Me.lblLaunch.Location = New System.Drawing.Point(661, 491)
         Me.lblLaunch.Name = "lblLaunch"
         Me.lblLaunch.Size = New System.Drawing.Size(94, 25)
         Me.lblLaunch.TabIndex = 4
@@ -256,40 +242,48 @@ Partial Class frmLauncher
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLog.Location = New System.Drawing.Point(7, 333)
+        Me.txtLog.Location = New System.Drawing.Point(7, 33)
         Me.txtLog.Multiline = True
         Me.txtLog.Name = "txtLog"
         Me.txtLog.ReadOnly = True
         Me.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtLog.Size = New System.Drawing.Size(758, 345)
+        Me.txtLog.Size = New System.Drawing.Size(758, 450)
         Me.txtLog.TabIndex = 5
         Me.txtLog.Tag = ""
         Me.txtLog.Text = "Liberation Launcher |" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Pre-release Log       |" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "----------------------------|"
         Me.txtLog.Visible = False
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(157, 6)
+        '
+        'KillSettingsToolStripMenuItem
+        '
+        Me.KillSettingsToolStripMenuItem.Name = "KillSettingsToolStripMenuItem"
+        Me.KillSettingsToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.KillSettingsToolStripMenuItem.Text = "Kill Settings"
         '
         'frmLauncher
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
-        Me.ClientSize = New System.Drawing.Size(777, 727)
+        Me.ClientSize = New System.Drawing.Size(777, 527)
         Me.Controls.Add(Me.lblLaunch)
         Me.Controls.Add(Me.pbDl)
         Me.Controls.Add(Me.MenuStrip1)
-        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.txtLog)
         Me.Controls.Add(Me.webMain)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmLauncher"
         Me.Text = "Liberation Launcher: Ubipy Music Player"
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents HelpToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -317,4 +311,6 @@ Partial Class frmLauncher
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ResetBrowserToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents txtLog As System.Windows.Forms.TextBox
+    Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
+    Friend WithEvents KillSettingsToolStripMenuItem As ToolStripMenuItem
 End Class

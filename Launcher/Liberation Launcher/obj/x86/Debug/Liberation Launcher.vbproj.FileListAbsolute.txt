@@ -37,8 +37,21 @@ C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation
 C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.frmReg.resources
 C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation_Launcher.Resources.resources
 C:\Users\Damian\Documents\Documents\Development\GitHub\Forsaken-Light\Liberation Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.vbproj.GenerateResource.Cache
-C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Liberation Launcher.exe.config
-C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.exe
-C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.xml
-C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.pdb
 C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Ubipy Launcher.exe.config
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.vbprojResolveAssemblyReference.cache
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy_Launcher.frmAbout.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy_Launcher.frmCredits.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy_Launcher.frmLauncher.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy_Launcher.Resources.resources
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Liberation Launcher.vbproj.GenerateResource.Cache
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\python-3.4.3.msi
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Ubipy Launcher.exe
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Ubipy Launcher.pdb
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Ubipy Launcher.xml
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy Launcher.exe
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy Launcher.xml
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy Launcher.pdb
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Ubipy Launcher.exe.manifest
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Debug\Ubipy Launcher.application
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy Launcher.exe.manifest
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\obj\x86\Debug\Ubipy Launcher.application

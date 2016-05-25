@@ -23,8 +23,11 @@ Public Class frmLauncher
 
     Private Sub frmLauncher_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         ' Remove when done testing
-        My.Settings.Reset()
+        ' My.Settings.Reset()
+
         AddLog("Launcher Version: " & ProductVersion)
+        AddLog("Location: " & Application.StartupPath)
+        PyCheck()
         UpdateGame()
         If My.Settings.Version <> -1 Then
             lblLaunch.Visible = True
@@ -85,6 +88,25 @@ Public Class frmLauncher
         'End If
     End Sub
 
+    Private Sub PyCheck()
+        If (Not System.IO.File.Exists(My.Settings.PyEnv & "\python.exe")) Then
+            AddLog("Could not find Python installation.")
+            If MsgBox("An existing Python 3.4 installation could not be found. Do you have an installation of Python 3.x? (If you're unsure, press no.)", MsgBoxStyle.YesNo, "Python Unfound") Then
+                Dim dialog As New FolderBrowserDialog()
+                dialog.SelectedPath = "C:\"
+                dialog.Description = "Select Python 3.x Installation Folder"
+                If dialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    My.Settings.PyEnv = dialog.SelectedPath
+                End If
+            Else
+                Dim p As Process = New Process()
+                p.StartInfo.FileName = "msiexec"
+                p.StartInfo.Arguments = "/i python-3.4.3.msi"
+                p.Start()
+            End If
+        End If
+    End Sub
+
     Private Sub UpdateGame()
         Dim RemoteUri As String ' the web location of the files
         Dim Files() As String ' the list of files to be updated
@@ -93,7 +115,12 @@ Public Class frmLauncher
         RemoteUri = "http://scratso.xyz/archives/ubipy/bin/"
 
         ' Check key folders exist
-        If (Not System.IO.Directory.Exists("data")) Then
+        If (Not System.IO.Directory.Exists(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy")) Then
+            AddLog("Ubipy folder not found. Creating...")
+            System.IO.Directory.CreateDirectory("ubipy")
+            AddLog("Ubipy folder created.")
+        End If
+        If (Not System.IO.Directory.Exists(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy\data")) Then
             AddLog("Data folder not found. Creating...")
             System.IO.Directory.CreateDirectory("data")
             AddLog("Data folder created.")
@@ -165,22 +192,22 @@ Public Class frmLauncher
 
                     For Each File As String In Files
                         If File.Contains("f:") Then
-                            If (Not System.IO.Directory.Exists("data\" & File.Split(":")(1))) Then
-                                AddLog("Creating folder """ & "data\" & File.Split(":")(1) & """...")
-                                System.IO.Directory.CreateDirectory("data\" & File.Split(":")(1))
+                            If (Not System.IO.Directory.Exists(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy\data\" & File.Split(":")(1))) Then
+                                AddLog("Creating folder """ & My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy\data\" & File.Split(":")(1) & """...")
+                                System.IO.Directory.CreateDirectory(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy\data\" & File.Split(":")(1))
                                 AddLog("Folder created.")
                             End If
                         Else
                             AddLog("Downloading file """ & File & """...")
                             Try
                                 Try
-                                    My.Computer.FileSystem.DeleteFile("data\" & File)
+                                    My.Computer.FileSystem.DeleteFile(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy\data\" & File)
                                 Catch ex As Exception
 
                                 End Try
                                 My.Computer.Network.DownloadFile(
                                 RemoteUri & My.Settings.Version & "/" & File,
-                                "data\" & File)
+                                My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy\data\" & File)
                             Catch err As Exception
                                 AddLog("Error: " & err.ToString())
                             End Try
@@ -226,5 +253,17 @@ Public Class frmLauncher
     Private Sub LicenseToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles LicenseToolStripMenuItem.Click
         MsgBox("Ubipy is licensed under the GNU General Public License version 3." & Environment.NewLine & Environment.NewLine & "The source code is available at http://github.com/Scratso/Ubipy-Music-Player",
                MsgBoxStyle.Information, "Ubipy: License")
+    End Sub
+
+    Private Sub lblLaunch_Click(sender As Object, e As EventArgs) Handles lblLaunch.Click
+        Directory.SetCurrentDirectory(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\ubipy\data\")
+        Dim p As Process = New Process()
+        p.StartInfo.FileName = My.Settings.PyEnv & "\python.exe"
+        p.StartInfo.Arguments = "ubipy.py"
+        p.Start()
+    End Sub
+
+    Private Sub KillSettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles KillSettingsToolStripMenuItem.Click
+        My.Settings.Reset()
     End Sub
 End Class
