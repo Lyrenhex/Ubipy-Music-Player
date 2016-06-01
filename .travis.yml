@@ -11,9 +11,9 @@ before_install:
   - cd ..
 # command to install dependencies
 install:
-  - "pip install mutagen"
-  - "pip install easygui"
-  - "pip install pylast"
+  - "pip3 install mutagen"
+  - "pip3 install easygui"
+  - "pip3 install pylast"
 # command to run tests
 script: "nosetests Master/*.py"
 virtualenv:
