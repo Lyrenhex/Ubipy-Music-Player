@@ -3,13 +3,16 @@ python:
   - "3.4"
   - "3.5"
   - "3.5-dev" # 3.5 development branch
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get build-dep -qq python3-pygame
+  - sudo apt-get install -qq python3-pygame
 # command to install dependencies
 install:
-  - "pip install pygame"
   - "pip install mutagen"
   - "pip install easygui"
   - "pip install pylast"
 # command to run tests
-script:
-  - "cd Master"
-  - 'python "Ubipy Music Player.py"'
+script: "nosetests Master/*.py"
+virtualenv:
+  system_site_packages: true
