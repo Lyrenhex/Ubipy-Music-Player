@@ -2,7 +2,7 @@ import cx_Freeze
 
 executables = [cx_Freeze.Executable("Ubipy Music Player.py",
                                     shortcutName="Ubipy Music Player",
-                                    shortcutDir="DesktopFolder")]
+                                    shortcutDir="StartMenuFolder")]
 
 # version number:
 # a.b.c
@@ -14,12 +14,12 @@ executables = [cx_Freeze.Executable("Ubipy Music Player.py",
 cx_Freeze.setup(
     name="Ubipy Music Player",
     author="Damian Heaton",
-    version="0.7.1",
-    options={"build_exe": {"packages":["pygame", "mutagen", "easygui"],
+    version="0.2016.3",
+    options={"build_exe": {"packages":["pygame", "mutagen", "easygui", "pylast"],
                            "excludes": [],
-                           "include_files":["music", "res",
+                           "include_files":["music", "res", "src",
                                             "albumart-placeholder.png",
-                                            "LICENSE", "README.md",
+                                            "..\\LICENSE", "..\\README.md",
                                             "Ubipy Music Player.py"]},
              "bdist_msi": { } },
     executables = executables

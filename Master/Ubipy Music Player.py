@@ -31,9 +31,6 @@ debug = True
 
 import sys
 import os
-
-sys.path.insert(0, os.path.join(os.getcwd(), "library.zip"))
-
 import pygame
 from pygame.locals import *
 from mutagen.id3 import ID3 as id3
