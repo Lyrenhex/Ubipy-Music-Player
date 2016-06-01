@@ -14,11 +14,11 @@ Public Class frmLauncher
     End Function
 
     Private Sub ContactToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ContactToolStripMenuItem.Click
-        webMain.Navigate("http://damianheaton.com/#contact")
+        webMain.Navigate("http://damianheaton.com/social.php")
     End Sub
 
     Private Sub ResetBrowserToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ResetBrowserToolStripMenuItem.Click
-        webMain.Navigate("http://scratso.xyz/archives/fl")
+        webMain.Navigate("http://scratso.xyz/archives/ubipy")
     End Sub
 
     Private Sub frmLauncher_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -91,7 +91,7 @@ Public Class frmLauncher
     Private Sub PyCheck()
         If (Not System.IO.File.Exists(My.Settings.PyEnv & "\python.exe")) Then
             AddLog("Could not find Python installation.")
-            If MsgBox("An existing Python 3.4 installation could not be found. Do you have an installation of Python 3.x? (If you're unsure, press no.)", MsgBoxStyle.YesNo, "Python Unfound") Then
+            If MsgBox("An existing Python 3.4 installation could not be found. Do you have an installation of Python 3.x? (If you're unsure, press no.)", MsgBoxStyle.YesNo, "Python Unfound") = MsgBoxResult.Yes Then
                 Dim dialog As New FolderBrowserDialog()
                 dialog.SelectedPath = "C:\"
                 dialog.Description = "Select Python 3.x Installation Folder"
@@ -103,6 +103,19 @@ Public Class frmLauncher
                 p.StartInfo.FileName = "msiexec"
                 p.StartInfo.Arguments = "/i python-3.4.3.msi"
                 p.Start()
+                p.WaitForExit()
+                p.StartInfo.FileName = My.Settings.PyEnv & "\Scripts\pip.exe"
+                p.StartInfo.Arguments = "install pygame-3.4-win32.whl"
+                p.Start()
+                p.WaitForExit()
+                p.StartInfo.FileName = My.Settings.PyEnv & "\Scripts\pip.exe"
+                p.StartInfo.Arguments = "install mutagen"
+                p.Start()
+                p.WaitForExit()
+                p.StartInfo.FileName = My.Settings.PyEnv & "\Scripts\pip.exe"
+                p.StartInfo.Arguments = "install easygui"
+                p.Start()
+                p.WaitForExit()
             End If
         End If
     End Sub

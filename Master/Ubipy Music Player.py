@@ -5,6 +5,7 @@ Dependencies:
 pygame
 mutagen
 easygui
+pylast
 
     Ubipy Cross-Platform Free Music Player
     Copyright (C) 2016 Damian Heaton <me@damianheaton.com>
@@ -28,13 +29,16 @@ relt = "LibPlayer"
 verid = "0.7.1"
 debug = True
 
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.getcwd(), "library.zip"))
+
 import pygame
 from pygame.locals import *
 from mutagen.id3 import ID3 as id3
 from mutagen.mp3 import MP3 as mp3
 from mutagen import File as mfile
-import sys
-import os
 import time
 import logging
 import easygui
@@ -45,6 +49,7 @@ from ftplib import FTP, error_perm
 import src.Legal
 import src.Update
 import src.Index
+import pylast
 
 src.Legal.printGNU(name)
 
@@ -166,8 +171,44 @@ if ftpServ.ftpOn:
     
 ftpServ.store()
     
-    
+class Settings(
+        easygui.EgStore):
+    def __init__(self, filename):  # filename is required
+        # -------------------------------------------------
+        # Specify default/initial values for variables that
+        # this particular application wants to remember.
+        # -------------------------------------------------
+        self.libreFm = None # this should become a user-pass tuple when activated, to log in.
+        self.lastFm = None
+        
+        # -------------------------------------------------
+        # For subclasses of EgStore, these must be
+        # the last two statements in  __init__
+        # -------------------------------------------------
+        self.filename = filename  # this is required
+        self.restore()  # restore values from the storage file if possible
 
+fmScrobbling = Settings("scrobbling.fm")
+
+global apikey, apisec
+apikey = "04957487cbc8872eccc6cc9688f9b86c"
+apisec = "9daf4804340d2584c979e9f620068924"
+
+class fmLogin():
+    def libre(username, password):
+        # sadly can't seem to find out where to get a libre.fm api key and secret
+        # ah well, last.fm will be supported for now.
+        pass
+    def last(username, password):
+        network = pylast.LastFMNetwork(api_key = apikey, api_secret =
+                  apisec, username = username, password_hash = pylast.md5(password))
+        return network
+    
+global lastFm
+lastFm = None
+if fmScrobbling.lastFm is not None:
+    lastFm = fmLogin.last(fmScrobbling.lastFm[0], fmScrobbling.lastFm[1])
+        
 pygame.mixer.init()
 pygame.display.init()
 pygame.font.init()
@@ -302,6 +343,7 @@ Basing it off directory tree instead.""")
 pygame.mixer.music.play(0, st)
 display = pygame.display.set_mode((1500, 900)) # 135
 pygame.display.set_caption(name)
+starttime = int(time.time())
 while True:
     posx, posy = pygame.mouse.get_pos()
     try:
@@ -364,6 +406,23 @@ while True:
                              + song.split("/")[1])
                 pygame.mixer.music.set_volume(volume)
                 pygame.mixer.music.play(0)
+#                if lastFm is not None:
+#                    try:
+#                        lastFm.update_now_playing(metadata['TPE1'].text[0],
+#                                                  metadata['TIT2'].text[0])
+#                    except:
+#                        lastFm.update_now_playing(song.split("/")[1],
+#                                                  song.split("/")[3].split(".")[0])
+                starttime = int(time.time())
+                if lastFm is not None:
+                    try:
+                        lastFm.scrobble(metadata['TPE1'].text[0],
+                                        metadata['TIT2'].text[0],
+                                        starttime)
+                    except:
+                        lastFm.scrobble(song.split("/")[1],
+                                        song.split("/")[3].split(".")[0],
+                                        starttime)
             elif event.type == MOUSEBUTTONDOWN:
                 if event.button == 4:
                     if volume < 1:
@@ -383,7 +442,7 @@ while True:
                             # print(mpercent, "%:", mseconds)
                     if 0 <= posx <= 375:
                         if 0 <= posy <= 34:
-                            folder = easygui.choicebox("Please enter the artist you\
+                            folder = easygui.choicebox("Please select the artist you\
      wish to listen to.", "Ubipy :: Select artist", artists2)
                             if folder is not None:
                                 # IMPORTANT NTS
@@ -427,8 +486,8 @@ while True:
                                              + " by " + songs[cursong].split("/")[1])
                                 pygame.mixer.music.set_volume(volume)
                                 pygame.mixer.music.play(0)
-                        elif 40 <= posy <= 70:
-                            album = easygui.choicebox("Please enter the album you\
+                        elif 40 <= posy <= 74:
+                            album = easygui.choicebox("Please select the album you\
      wish to listen to.", "Ubipy :: Select album", albums2)
                             if album is not None:
                                 album = album.split(", by ")
@@ -473,6 +532,50 @@ while True:
                                              + " by " + songs[cursong].split("/")[1])
                                 pygame.mixer.music.set_volume(volume)
                                 pygame.mixer.music.play(0)
+                        elif 80 <= posy <= 114:
+                            easygui.msgbox("Unfortunately, Libre.FM scrobbling isn't supported at the moment. Perhaps try again later?",
+                                           "Unsupported Scrobble Platform: Libre.FM")
+#                            if fmScrobbling.libreFm is None:
+#                                enable = easygui.ynbox("Would you like to configure scrobbling for Libre.FM?",
+#                                                       "Libre.FM Configuration")
+#                            else:
+#                                enable = easygui.ynbox("You are currently scrobbling to Libre.FM. Would you like to continue? (Yes will allow you to reconfigure your account details, whereas \"no\" will stop Libre.FM scrobbling.)",
+#                                                       "Libre.FM Configuration")
+#                            if enable:
+#                                default = ["", ""]
+#                                if fmScrobbling.libreFm is not None:
+#                                    default = [fmScrobbling.libreFm[0], fmScrobbling.libreFm[1]]
+#                                libreFmAccount = easygui.multpasswordbox("Please enter your Libre.FM account details.",
+#                                                                         "Libre.FM Configuration", ["Username", "Password"],
+#                                                                         default)
+#                                if libreFmAccount is not None:
+#                                    fmScrobbling.libreFm = [libreFmAccount[0], libreFmAccount[1]]
+#                                    fmScrobbling.store()
+#                            else:
+#                                fmScrobbling.libreFm = None
+#                                fmScrobbling.store()
+                        elif 120 <= posy <= 154:
+                            if fmScrobbling.lastFm is None:
+                                enable = easygui.ynbox("Would you like to configure scrobbling for Last.FM?",
+                                                       "Last.FM Configuration")
+                            else:
+                                enable = easygui.ynbox("You are currently scrobbling to Last.FM. Would you like to continue? (Yes will allow you to reconfigure your account details, whereas \"no\" will stop Last.FM scrobbling.)",
+                                                       "Last.FM Configuration")
+                            if enable:
+                                default = ["", ""]
+                                if fmScrobbling.lastFm is not None:
+                                    default = [fmScrobbling.lastFm[0], fmScrobbling.lastFm[1]]
+                                lastFmAccount = easygui.multpasswordbox("Please enter your Last.FM account details.",
+                                                                         "Last.FM Configuration", ["Username", "Password"],
+                                                                         default)
+                                if lastFmAccount is not None:
+                                    fmScrobbling.lastFm = [lastFmAccount[0], lastFmAccount[1]]
+                                    fmScrobbling.store()
+                                    lastFm = fmLogin.last(fmScrobbling.lastFm[0], fmScrobbling.lastFm[1])
+                            else:
+                                fmScrobbling.lastFm = None
+                                fmScrobbling.store()
+                                lastFm = None
                     elif 900 <= posx <= 1000 and 751 <= posy <= 851:
                         shuffle = not shuffle
                     elif 1000 <= posx <= 1100 and 751 <= posy <= 851:
@@ -599,16 +702,30 @@ while True:
         display.blit(pygame.transform.scale(pygame.image.load("albumart.jpg"),
                                             (750, 750)), (375, 0))
         pygame.draw.rect(display, (255, 50, 255), (0, 0, 375, 34), 4)
-        artisttxt = title = font.render("Artist", True, (255, 255, 255))
+        artisttxt = font.render("Artist", True, (255, 255, 255))
         pygame.draw.rect(display, (255, 50, 255), (0, 40, 375, 34), 4)
-        albumtxt = title = font.render("Album", True, (255, 255, 255))
+        albumtxt = font.render("Album", True, (255, 255, 255))
+        pygame.draw.rect(display, (255, 50, 255), (0, 80, 375, 34), 4)
+        libretxt = font.render("Libre.FM", True, (255, 255, 255))
+        pygame.draw.rect(display, (255, 50, 255), (0, 120, 375, 34), 4)
+        lasttxt = font.render("Last.FM", True, (255, 255, 255))
         if 0 <= posx <= 375:
             if 0 <= posy <= 34:
                 pygame.draw.rect(display, (255, 50, 255), (0, 0, 375, 34))
-            elif 40 <= posy <= 70:
+            elif 40 <= posy <= 74:
                 pygame.draw.rect(display, (255, 50, 255), (0, 40, 375, 34))
+            elif 80 <= posy <= 114:
+                pygame.draw.rect(display, (255, 50, 255), (0, 80, 375, 34))
+            elif 120 <= posy <= 154:
+                pygame.draw.rect(display, (255, 50, 255), (0, 120, 375, 34))
+        if fmScrobbling.libreFm is not None:
+            pygame.draw.rect(display, (255, 50, 255), (0, 80, 375, 34))
+        if fmScrobbling.lastFm is not None:
+            pygame.draw.rect(display, (255, 50, 255), (0, 120, 375, 34))
         display.blit(artisttxt, (6, 0))
         display.blit(albumtxt, (6, 40))
+        display.blit(libretxt, (6, 80))
+        display.blit(lasttxt, (6, 120))
         if cursong == startsong:
             minutes = (pygame.mixer.music.get_pos() // 60000) + (int(st) // 60)
             seconds = ((pygame.mixer.music.get_pos() // 1000)

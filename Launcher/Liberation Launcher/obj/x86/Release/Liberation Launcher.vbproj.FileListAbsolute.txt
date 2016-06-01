@@ -12,8 +12,9 @@ H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher
 H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation Launcher.pdb
 H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\bin\Release\Liberation Launcher.exe.config
 H:\Documents\Visual Studio 2010\Projects\Liberation Launcher\Liberation Launcher\obj\x86\Release\Liberation_Launcher.frmReg.resources
-C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Release\Ubipy Launcher.exe.config
 C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Release\python-3.4.3.msi
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Release\pygame-3.4-win32.whl
+C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Release\Ubipy Launcher.exe.config
 C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Release\Ubipy Launcher.exe.manifest
 C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Release\Ubipy Launcher.application
 C:\Users\Damian\Documents\Documents\Development\GitHub\Ubipy-Music-Player\Launcher\Liberation Launcher\bin\Release\Ubipy Launcher.exe
